@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">I know Naija</string>
+    <string name="title_activity_dispatch">Dispatch Activity</string>
+    <string name="title_activity_home">Home</string>
+    <string name="txt_play">Play</string>
+</resources>

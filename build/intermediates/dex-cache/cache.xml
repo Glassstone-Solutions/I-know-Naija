@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\com.android.support\design\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-15b62422c69ffab99fab7e684303d947e5cd59da.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-9e80c84700f125fd86b60ef83607a7677d1ad489.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3c729e6d76a36c5dc27e6a4c4009296f49eaa88a">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-878a3eec38ed37f598e4138d3fdc3613e52ed4ae.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\libs\androidsvg-1.2.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="0b8e2b5de0473fdac58cbfb4bc1ef751b09125c4">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\androidsvg-1.2.0-5c085ceac31b46d9da5f3accb93eaac280cc0a8f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d61920aba361832a9545a43fa8c9453eb02f18f7">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-b15f8b9d6d7a5b50b0ee9650c6ad15b9f9988072.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3\5fc52c41ef0239d1093a1eb7c3697036183677ce\gson-2.3.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\gson-2.3-99bc72b1b0a82e7103a153f300e91973fce211fe.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\picasso-2.5.2-de7107040da06a70b98352ebac77b15b10ae0959.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-4b8243d61e191440e0e7a88afce4c1314824bade.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="82825756edeeb3b56b15e73b2edd56e93da5a444">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-932ca4849b7365b04400856ea9589c23ce477623.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-ea00aeb0a630b1a2d2b975b73cf2d189b25b7bb7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\io.realm\realm-android\0.83.0\fcc995aa3a075352049ed77afb34c61559a73931\realm-android-0.83.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="fcc995aa3a075352049ed77afb34c61559a73931">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\realm-android-0.83.0-b87e97d64dd59810ecf7ea777631852bfab7579e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="993834cb17d07d51b92db89d2c330243592ebf77">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-580dcc9c9f9b6eeec9469b3c7e07f4a3f1392c6a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\6.0.0\3a10b25b6820e19102e118711afe6a66c0bae123\butterknife-6.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3a10b25b6820e19102e118711afe6a66c0bae123">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\butterknife-6.0.0-587a19485e96f595c859f05b86436d974d280df3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\IknowNaija.Libraries\BaseGameUtils\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="7c9676ae6fa3dea7bc591e957f85f33b44927e0f">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-f891d3e10ca12ea4416c0d8989c78cf94f92e1ac.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\IknowNaija.Libraries.MaterialShowcaseView\library\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="477531fd00d0eacf6cb79b19e1bcf918c0669a62">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-cd75795ebbc7f65393aa9b2332bea1a99e9f1d1c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-cdf8972baa2f33ae90decd0890342d005c5c552f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="C:\Users\Thompson\AndroidStudioProjects\IknowNaija\app\build\intermediates\pre-dexed\debug\classes-691e7d494e4422e10807ca4591cec9091a14beaf.jar" />
+    </item>
+
+</items>

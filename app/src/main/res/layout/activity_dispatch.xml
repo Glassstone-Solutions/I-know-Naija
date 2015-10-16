@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:r="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="ng.codehaven.game.iknownaija.ui.DispatchActivity">
+
+    <ng.codehaven.game.iknownaija.ui.views.IntroView
+        android:id="@+id/introView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="32dp"
+
+        r:phase="1.0"
+        r:duration="4000"
+        r:fadeFactor="10.0"
+        r:waitRadius="25dp"
+        r:arrowLength="16dp"
+        r:arrowHeight="18dp"
+        r:strokeWidth="2.0"
+        r:strokeColor="#ffffffff"/>
+
+    <LinearLayout
+        android:id="@+id/view_control"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="200dp"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_play"
+            android:text="@string/txt_play"
+            android:textColor="?android:textColorPrimaryInverse"/>
+
+        <com.google.android.gms.common.SignInButton
+            android:layout_width="200dp"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+</LinearLayout>
