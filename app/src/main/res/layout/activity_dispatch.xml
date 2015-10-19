@@ -1,57 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:r="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="ng.codehaven.game.iknownaija.ui.DispatchActivity">
+    tools:context="ng.codehaven.game.iknownaija.ui.DispatchActivity"
+    tools:ignore="MissingPrefix">
 
-    <ng.codehaven.game.iknownaija.ui.views.IntroView
-        android:id="@+id/introView"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_palace" />
 
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="32dp"
-
-        r:phase="1.0"
-        r:duration="4000"
-        r:fadeFactor="10.0"
-        r:waitRadius="25dp"
-        r:arrowLength="16dp"
-        r:arrowHeight="18dp"
-        r:strokeWidth="2.0"
-        r:strokeColor="#ffffffff"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_scrim" />
 
     <LinearLayout
-        android:id="@+id/view_control"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:actionBarSize"
         android:orientation="vertical"
-        >
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin">
 
-        <Button
-            android:id="@+id/btn_play"
-            android:layout_width="200dp"
-            android:layout_height="56dp"
-            android:layout_marginBottom="8dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/btn_play"
-            android:text="@string/txt_play"
-            android:textColor="?android:textColorPrimaryInverse"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
 
-        <com.google.android.gms.common.SignInButton
-            android:layout_width="200dp"
-            android:layout_height="56dp"
-            android:layout_marginBottom="8dp"
-            android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/txt_i"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="4dp"
+                android:text="I"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorText"
+                app:customTypeface="oswald-stencbab" />
+
+            <TextView
+                android:id="@+id/txt_know"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="4dp"
+                android:text="KNOW"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorText"
+                app:customTypeface="oswald-stencbab" />
+
+            <TextView
+                android:id="@+id/txt_naija"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="4dp"
+                android:text="NAIJA"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorText"
+                app:customTypeface="oswald-stencbab" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/view_control"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_play"
+                android:layout_width="200dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_play"
+                android:text="@string/txt_play"
+                android:textColor="?android:textColorPrimaryInverse" />
+
+            <Button
+                android:id="@+id/btn_leader_board"
+                android:layout_width="200dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_play"
+                android:text="@string/txt_leader_board"
+                android:textColor="?android:textColorPrimaryInverse" />
+
+            <Button
+                android:id="@+id/btn_achievements"
+                android:layout_width="200dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_play"
+                android:text="@string/txt_achievements"
+                android:textColor="?android:textColorPrimaryInverse" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- SIGN-OUT BAR -->
+    <LinearLayout android:id="@+id/sign_out_bar" style="@style/SignInOutBar"
+        android:visibility="gone">
+
+        <TextView style="@style/SignInOutBarBlurb"
+            android:text="@string/you_are_signed_in" />
+
+        <Button style="@style/SignOutButton" android:id="@+id/button_sign_out"
+            android:text="@string/sign_out" />
 
     </LinearLayout>
 
-</LinearLayout>
+    <!-- SIGN-IN BAR -->
+    <LinearLayout
+        android:id="@+id/sign_in_bar"
+        style="@style/SignInOutBar"
+        android:visibility="gone">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/button_sign_in"
+            style="@style/SignInButton" />
+
+        <TextView
+            style="@style/SignInOutBarBlurb"
+            android:text="@string/sign_in_explanation" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+</FrameLayout>
