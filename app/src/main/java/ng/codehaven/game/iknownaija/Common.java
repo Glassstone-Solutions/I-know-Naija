@@ -15,6 +15,8 @@ public class Common extends Application {
     public static final String SHARED_PREF = "user_pref";
     public static final String FIRST_RUN_KEY = "first_key";
     public static final String G_PLUS_SIGNED_IN = "g+";
+    public static final String TICKER = "ticker";
+    public static final String TICKER_STARTED = "ticker_started";
 
     /**
      * Called when the application is starting, before any activity, service,
@@ -30,16 +32,10 @@ public class Common extends Application {
 
         super.onCreate();
 
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Roboto-ThinItalic.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .addCustomStyle(TextField.class, R.attr.textFieldStyle)
-                        .build()
-        );
-
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Cantarell-Bold.ttf");
         CustomTypeface.getInstance().registerTypeface("cantarell-bold", typeface);
 
         CustomTypeface.getInstance().registerTypeface("oswald-stencbab", getAssets(), "fonts/Oswald-Stencbab.ttf");
+        CustomTypeface.getInstance().registerTypeface("roboto-bold", getAssets(), "fonts/Roboto-Bold.ttf");
     }
 }
