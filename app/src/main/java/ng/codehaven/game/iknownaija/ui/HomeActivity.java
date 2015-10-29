@@ -36,8 +36,17 @@ public class HomeActivity extends BaseActivity implements
                 this, CustomTypeface.getInstance()));
         super.onCreate(savedInstanceState);
 
+
         Realm realm = Realm.getInstance(this);
 
+        if (!getIntent().getStringExtra("cat").equals("")){
+            Category category = realm.where(Category.class).equalTo(Category.CAT_ID, getIntent().getStringExtra("cat")).findFirst();
+            if (!category.getSolved().equals("solved")) {
+                realm.beginTransaction();
+                category.setSolved("solved");
+                realm.commitTransaction();
+            }
+        }
         RealmResults<Category> categories = realm.where(Category.class).findAll();
 
         List<Category> cat = new ArrayList<>();
