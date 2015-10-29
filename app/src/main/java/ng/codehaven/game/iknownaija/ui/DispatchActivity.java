@@ -7,13 +7,16 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -22,12 +25,26 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.plus.Plus;
 import com.google.example.games.basegameutils.BaseGameUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cat.ppicas.customtypeface.CustomTypeface;
 import cat.ppicas.customtypeface.CustomTypefaceFactory;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import ng.codehaven.game.iknownaija.Common;
 import ng.codehaven.game.iknownaija.R;
+import ng.codehaven.game.iknownaija.models.Category;
+import ng.codehaven.game.iknownaija.models.JsonAttributes;
+import ng.codehaven.game.iknownaija.models.Quiz;
 
 public class DispatchActivity extends AppCompatActivity implements
         View.OnClickListener,
@@ -48,6 +65,9 @@ public class DispatchActivity extends AppCompatActivity implements
     LinearLayout mSignUpBar;
     @InjectView(R.id.sign_out_bar)
     LinearLayout mSignOutBar;
+    @InjectView(R.id.loading_bg)View mLoadingBg;
+    @InjectView(R.id.progress)
+    ProgressBar mProgress;
 
     @InjectView(R.id.btn_play)
     Button mPlayBtn;
@@ -71,12 +91,20 @@ public class DispatchActivity extends AppCompatActivity implements
     // Automatically start the sign-in flow when the Activity starts
     private boolean mAutoStartSignInFlow = true;
 
+    private Realm realm;
+
+    private Resources mResources;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getLayoutInflater().setFactory(new CustomTypefaceFactory(
                 this, CustomTypeface.getInstance()));
 
         super.onCreate(savedInstanceState);
+
+        realm = Realm.getInstance(this);
+
+        mResources = getResources();
 
         // Create the Google API Client with access to Plus and Games
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -95,18 +123,14 @@ public class DispatchActivity extends AppCompatActivity implements
         mSignUpBar.setAlpha(0f);
         mSignOutBar.setAlpha(0f);
 
-
-        doAnimations();
-
-        setOnClickListiners();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (mGoogleApiClient != null && !mGoogleApiClient.isConnecting()) {
-            mGoogleApiClient.connect();
-        }
+//        if (mGoogleApiClient != null && !mGoogleApiClient.isConnecting()) {
+//            mGoogleApiClient.connect();
+//        }
     }
 
     @Override
@@ -115,9 +139,15 @@ public class DispatchActivity extends AppCompatActivity implements
 
         sp = getSharedPreferences(Common.SHARED_PREF, Context.MODE_PRIVATE);
         if (sp.getBoolean(Common.FIRST_RUN_KEY, true)) {
-            init(this);
+            init(realm);
         } else {
-            startActivity(new Intent(this, HomeActivity.class));
+            if (mLoadingBg.getVisibility() == View.VISIBLE || mProgress.getVisibility() == View.VISIBLE){
+                mLoadingBg.setVisibility(View.GONE);
+                mProgress.setVisibility(View.GONE);
+
+                doAnimations();
+                setOnClickListiners();
+            }
         }
 
     }
@@ -145,6 +175,36 @@ public class DispatchActivity extends AppCompatActivity implements
     }
 
     private void doAnimations() {
+
+        if (mLoadingBg.getVisibility() == View.VISIBLE){
+            mProgress.setVisibility(View.GONE);
+            ObjectAnimator bgAnim = ObjectAnimator.ofFloat(mLoadingBg, View.ALPHA, 0f);
+            bgAnim.setDuration(500);
+            bgAnim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mLoadingBg.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+
+            bgAnim.start();
+        }
+
         ObjectAnimator iAnim = ObjectAnimator.ofFloat(mTxtI, "alpha", 1f);
         ObjectAnimator knowAnim = ObjectAnimator.ofFloat(mTxtKnow, "alpha", 1f);
         ObjectAnimator naijaAnim = ObjectAnimator.ofFloat(mTxtNaija, "alpha", 1f);
@@ -202,6 +262,109 @@ public class DispatchActivity extends AppCompatActivity implements
     }
 
 
+    private void init(Realm realm) {
+        SharedPreferences.Editor editor = sp.edit();
+
+        if (bootstrapDone(realm)) {
+            editor.putBoolean(Common.FIRST_RUN_KEY, false);
+            editor.apply();
+
+            doAnimations();
+
+            setOnClickListiners();
+
+        } else {
+            mProgress.setVisibility(View.GONE);
+//            retryBootStrap(realm);
+        }
+
+
+    }
+
+    private void retryBootStrap(Realm realm) {
+        try {
+            fillCategoriesAndQuizzes(realm);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean bootstrapDone(Realm realm) {
+        boolean bootDone;
+        try {
+            fillCategoriesAndQuizzes(realm);
+            bootDone = true;
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+            bootDone = false;
+        }
+        return bootDone;
+    }
+
+    private void fillCategoriesAndQuizzes(Realm realm) throws IOException, JSONException {
+        // Clear DB first
+        RealmResults<Category> c = realm.where(Category.class).findAll();
+        realm.beginTransaction();
+        c.clear();
+        realm.commitTransaction();
+
+        JSONArray jsonArray = new JSONArray(readCategoriesFromResources());
+        JSONObject category;
+        for (int i = 0; i < jsonArray.length(); i++) {
+            category = jsonArray.getJSONObject(i);
+            final String categoryId = category.getString(JsonAttributes.ID);
+            fillCategory(realm, category, categoryId);
+            final JSONArray quizzes = category.getJSONArray(JsonAttributes.QUIZZES);
+            fillQuizzesForCategory(realm, quizzes, categoryId);
+        }
+    }
+
+    private void fillCategory(Realm realm, JSONObject category, String categoryId) throws JSONException {
+        Log.e("TAG", category.toString());
+        Category cat = new Category();
+        cat.setCatId(categoryId);
+        cat.setTitle(category.getString(JsonAttributes.NAME));
+        cat.setTheme(category.getString(JsonAttributes.THEME));
+        cat.setSolved("");
+        cat.setScores("0");
+
+        realm.beginTransaction();
+        realm.copyToRealm(cat);
+        realm.commitTransaction();
+
+    }
+
+    private void fillQuizzesForCategory(Realm realm, JSONArray quizzes, String categoryId) throws JSONException {
+        JSONObject quiz;
+        for (int i = 0; i < quizzes.length(); i++) {
+            quiz = quizzes.getJSONObject(i);
+
+            Category c = realm.where(Category.class).equalTo("catId", categoryId).findFirst();
+
+            realm.beginTransaction();
+            Quiz q = new Quiz();
+            q.setType(quiz.getString(JsonAttributes.TYPE));
+            q.setQuestion(quiz.getString(JsonAttributes.QUESTION));
+            q.setAnswer(quiz.getString(JsonAttributes.ANSWER));
+            q.setOptions(quiz.getString(JsonAttributes.OPTIONS));
+            q.setSolved(false);
+            c.getQuizzes().add(q);
+            realm.commitTransaction();
+        }
+    }
+
+    private String readCategoriesFromResources() throws IOException {
+        StringBuilder categoriesJson = new StringBuilder();
+        InputStream rawCategories = mResources.openRawResource(R.raw.cat);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(rawCategories));
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            categoriesJson.append(line);
+        }
+        return categoriesJson.toString();
+    }
+
     @NonNull
     private ValueAnimator getAnimator(String mFrom, String mTo, final TextView tv) {
         final float[] from = new float[3],
@@ -228,26 +391,52 @@ public class DispatchActivity extends AppCompatActivity implements
         return anim;
     }
 
-    private void init(Context context) {
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(Common.FIRST_RUN_KEY, false);
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
 
-        if (bootstrapDone()) {
-            editor.apply();
-            startActivity(new Intent(this, HomeActivity.class));
-        } else {
-            retryBootStrap();
+        switch (id) {
+            case R.id.btn_play:
+                startActivity(new Intent(this, HomeActivity.class));
+                break;
+            case R.id.btn_leader_board:
+                if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient,
+                            getResources().getString(R.string.lb)), 9021);
+                } else {
+                    showSignInBar();
+                }
+                break;
+            case R.id.btn_achievements:
+                break;
         }
-
-
     }
 
-    private void retryBootStrap() {
-//        mProgress.setVisibility(View.GONE);
+    private void showSignInBar() {
+        ObjectAnimator anim = ObjectAnimator.ofFloat(mSignUpBar, View.ALPHA, 1f);
+        anim.setDuration(1000);
+        anim.start();
     }
 
-    private boolean bootstrapDone() {
-        return false;
+    private void showSignOutBar() {
+
+        mSignOutBar.setVisibility(View.VISIBLE);
+
+        ObjectAnimator anim = ObjectAnimator.ofFloat(mSignUpBar, View.ALPHA, 0f);
+        anim.setDuration(500);
+
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(mSignOutBar, View.ALPHA, 1f);
+
+        AnimatorSet animSet = new AnimatorSet();
+
+        animSet.playTogether(anim, anim2);
+
+        animSet.start();
     }
 
     @Override
@@ -273,53 +462,5 @@ public class DispatchActivity extends AppCompatActivity implements
         }
 
         showSignInBar();
-    }
-
-    private void showSignInBar() {
-        ObjectAnimator anim = ObjectAnimator.ofFloat(mSignUpBar, View.ALPHA, 1f);
-        anim.setDuration(1000);
-        anim.start();
-    }
-
-    private void showSignOutBar() {
-
-        mSignOutBar.setVisibility(View.VISIBLE);
-
-        ObjectAnimator anim = ObjectAnimator.ofFloat(mSignUpBar, View.ALPHA, 0f);
-        anim.setDuration(500);
-
-        ObjectAnimator anim2 = ObjectAnimator.ofFloat(mSignOutBar, View.ALPHA, 1f);
-
-        AnimatorSet animSet = new AnimatorSet();
-
-        animSet.playTogether(anim, anim2);
-
-        animSet.start();
-    }
-
-    /**
-     * Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-
-        switch (id) {
-            case R.id.btn_play:
-                startActivity(new Intent(this, HomeActivity.class));
-                break;
-            case R.id.btn_leader_board:
-                if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient,
-                            getResources().getString(R.string.lb)), 9021);
-                } else {
-                    showSignInBar();
-                }
-                break;
-            case R.id.btn_achievements:
-                break;
-        }
     }
 }

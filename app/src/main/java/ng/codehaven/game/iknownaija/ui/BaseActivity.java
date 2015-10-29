@@ -1,9 +1,13 @@
 package ng.codehaven.game.iknownaija.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import butterknife.ButterKnife;
+import io.realm.Realm;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -21,6 +25,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected FloatingActionButton mFab;
     protected Toolbar mToolbar;
+    protected SharedPreferences sp;
+    protected Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void init() {
 
         setContentView(contentId());
+
+        ButterKnife.inject(this);
 
         if (hasToolBar()) {
             mToolbar = getToolBar(getToolBarId());
