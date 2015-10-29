@@ -1,0 +1,248 @@
+[
+  {
+    "name":"History",
+    "id":"history",
+    "theme":"green",
+    "quizzes":[
+      {
+        "type": "single-select-item",
+        "question": "What date did Nigeria become a republic?",
+        "options": [
+          "October 1, 1960",
+          "October 1, 1962",
+          "October 1, 1963",
+          "October 1, 1970"
+        ],
+        "answer": [2]
+      },{
+        "type": "single-select-item",
+        "question": "Who was the first executive president of Nigeria?",
+        "options": [
+          "Dr Nnamdi Azikiwe",
+          "Sir Abubakar Tafawa Balewa",
+          "Alhaji Shehu Shagari",
+          "General Olusegun Obasanjo"
+        ],
+        "answer": [2]
+      },{
+        "type": "single-select-item",
+        "question": "The first military coup in Nigeria was carried on on what date?",
+        "options": [
+          "June 12, 1966",
+          "December 31, 1963",
+          "January 15, 1966",
+          "March 6, 1966"
+        ],
+        "answer": [2]
+      },{
+        "type": "single-select-item",
+        "question": "Who is the first Nigerian woman to drive a car?",
+        "options": [
+          "Mrs Funmilayo Ransome-Kuti",
+          "Hajia Bola Jinadu",
+          "Mrs Bolanle Rhodes",
+          "Mrs Ayoldele Coker"
+        ],
+        "answer": [0]
+      },{
+        "type": "single-select-item",
+        "question": "The Nigerian flag was designed by which prominent Nigerian?",
+        "options": [
+          "Micheal Taiwo Akinwunmi",
+          "James Taiwo Akinwunmi",
+          "Henry Taiwo Akinwunmi",
+          "Frederick Taiwo Akinwunmi"
+        ],
+        "answer": [0]
+      },{
+        "type": "single-select-item",
+        "question": "The Aba women's riot took place in what year?",
+        "options": [
+          "1935",
+          "1956",
+          "1929",
+          "1959"
+        ],
+        "answer": [2]
+      },{
+        "type": "single-select-item",
+        "question": "Who is the first man to make a GSM call in Nigeria?",
+        "options": [
+          "Pascal Dozie",
+          "Strive Masiyiwa",
+          "Gen. Olusegun Obasanjo",
+          "Bola Ahmed Tinubu"
+        ],
+        "answer": [1]
+      },{
+        "type": "single-select-item",
+        "question": "Which city was the first political capital of an amalgamated Nigeria?",
+        "options": [
+          "Lagos",
+          "Lokoja",
+          "Calabar",
+          "Zungeru"
+        ],
+        "answer": [1]
+      },{
+        "type": "single-select-item",
+        "question": "Who was the first premier of the western region in an independent Nigeria?",
+        "options": [
+          "Chief Obafemi Awolowo",
+          "Samuel Ladoke Akintola",
+          "Oba Adesoji Aderemi",
+          "Brigadier Adekunle Fajuyi"
+        ],
+        "answer": [1]
+      },{
+        "type": "single-select-item",
+        "question": "When did Nigeria change from right hand to left hand drive",
+        "options": [
+          "April 2, 1970",
+          "April 2, 1971",
+          "April 2, 1972",
+          "April 2, 1973"
+        ],
+        "answer": [2]
+      },{
+        "type": "single-select-item",
+        "question": "What is the name of the first Nigerian political party?",
+        "options": [
+          "Action Group",
+          "National Congress for Nigeria and the Cameroons",
+          "Nigerian National Democratic Party",
+          "Northern People's Congress"
+        ],
+        "answer": [2]
+      }
+    ]
+  },{
+    "name":"Geography",
+    "id":"geography",
+    "theme":"orange",
+    "quizzes":[
+      {
+        "type": "single-select-item",
+        "question": "The Futa Jallon is the source of which prominent Nigerian River?",
+        "options": [
+          "River Benue",
+          "River Niger",
+          "River Bauchi",
+          "River Osun"
+        ],
+        "answer": [1]
+      },{
+        "type": "single-select-item",
+        "question": "Who was the first executive president of Nigeria?",
+        "options": [
+          "Dr Nnamdi Azikiwe",
+          "Sir Abubakar Tafawa Balewa",
+          "Alhaji Shehu Shagari",
+          "General Olusegun Obasanjo"
+        ],
+        "answer": [2]
+      },{
+        "type": "single-select-item",
+        "question": "The Chappal Waddi or Gangirwal mountain range which is Nigeria's highest point is located in what state?",
+        "options": [
+          "Bauchi State",
+          "Benue State",
+          "Taraba State",
+          "Adamawa State"
+        ],
+        "answer": [2]
+      },{
+        "type": "single-select-item",
+        "question": "Where is the Ogbunike cave located?",
+        "options": [
+          "Enugu State",
+          "Anambra state",
+          "Imo State",
+          "Ebonyi State"
+        ],
+        "answer": [1]
+      },{
+        "type": "single-select-item",
+        "question": "Dutse is the capital of which state?",
+        "options": [
+          "Taraba State",
+          "Jigawa state",
+          "Gombe State",
+          "Bauchi State"
+        ],
+        "answer": [1]
+      },{
+        "type": "single-select-item",
+        "question": "Where is the famous Zuma rock located?",
+        "options": [
+          "Abuja",
+          "Niger State",
+          "Nasarawa State",
+          "Kogi State"
+        ],
+        "answer": [1]
+      }
+    ]
+  },{
+    "name":"Culture",
+    "id":"culture",
+    "theme":"blue",
+    "quizzes":[
+      {
+        "type": "single-select-item",
+        "question": "The earliest cultural artworks discovered in Nigeria are from which cultural heritage?",
+        "options": [
+          "The Benin Culture",
+          "The Ife Culture",
+          "The Nok Culture",
+          "The Kanuri Culture"
+        ],
+        "answer": [2]
+      },{
+        "type": "single-select-item",
+        "question": "What is the title of the traditional ruler of Borno Kingdom?",
+        "options": [
+          "The Emir of Borno",
+          "The El Kanemi of Borno",
+          "The Shehu of Borno",
+          "The Sheikh of Borno"
+        ],
+        "answer": [2]
+      }
+    ]
+  },{
+    "name":"Sports",
+    "id":"sports",
+    "theme":"red",
+    "quizzes":[
+      {
+        "type": "single-select-item",
+        "question": "Who won the first Nigerian Olympic gold medal?",
+        "options": [
+          "Mary Onyali",
+          "Falilat Ogunkoya",
+          "Chioma Ajunwa",
+          "Blessing Okagbare"
+        ],
+        "answer": [2]
+      }
+    ]
+  },{
+    "name":"Literature",
+    "id":"literature",
+    "theme":"teal",
+    "quizzes":[
+      {
+        "type": "single-select-item",
+        "question": "Who is the first Nigerian Nobel Laureate?",
+        "options": [
+          "Prof. Ben Akabueze",
+          "Cyprian Ekwensi",
+          "Gen. Olusegun Obasanjo",
+          "Professor Wole Soyinka"
+        ],
+        "answer": [3]
+      }
+    ]
+  }
+]

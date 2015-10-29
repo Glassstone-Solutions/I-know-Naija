@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories">
+        <item>History</item>
+        <item>Geography</item>
+        <item>Culture</item>
+        <item>Sports</item>
+        <item>Literature</item>
+        <item>Politics</item>
+    </string-array>
+</resources>

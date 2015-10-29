@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="204dp"
+    android:layout_height="204dp"
+    android:background="#FFFFFFFF"
+    tools:ignore="MissingPrefix"
+    android:id="@+id/cat_root">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:background="@color/transparentBlack" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp">
+
+        <ng.codehaven.game.iknownaija.ui.views.CustomTextView
+            android:id="@+id/txt_cat_label"
+            style="@style/tile_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/txt_cat_label_placeholder"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse" />
+
+    </FrameLayout>
+
+
+</FrameLayout>
