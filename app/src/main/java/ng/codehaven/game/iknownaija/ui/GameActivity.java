@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.squareup.otto.Bus;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -24,10 +26,12 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import ng.codehaven.game.iknownaija.Common;
 import ng.codehaven.game.iknownaija.R;
-import ng.codehaven.game.iknownaija.ui.adapters.AnswerAdapter;
-import ng.codehaven.game.iknownaija.ui.adapters.AnswerAdapter.AnswerInterface;
+import ng.codehaven.game.iknownaija.bus.BusProvider;
+import ng.codehaven.game.iknownaija.bus.events.QuizBuss;
 import ng.codehaven.game.iknownaija.models.Category;
 import ng.codehaven.game.iknownaija.models.Quiz;
+import ng.codehaven.game.iknownaija.ui.adapters.AnswerAdapter;
+import ng.codehaven.game.iknownaija.ui.adapters.AnswerAdapter.AnswerInterface;
 
 public class GameActivity extends BaseActivity implements OnClickListener, AnswerInterface {
 
@@ -39,18 +43,14 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
     RecyclerView mRecycler;
     @InjectView(R.id.fab)
     FloatingActionButton mFab;
-
     int mCount = 14;
     int tick = 15000;
     boolean counterStarted, answered, timerDone;
-
     CountDownTimer timer;
-
     String cat;
-
     Quiz q;
-
     AnswerAdapter adapter = null;
+    private Bus mBus = BusProvider.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,6 +234,7 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
         mFab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBus.post(new QuizBuss(cat));
                 Intent i = new Intent(GameActivity.this, GameActivity.class);
                 i.putExtra("category", cat);
                 startActivity(i);

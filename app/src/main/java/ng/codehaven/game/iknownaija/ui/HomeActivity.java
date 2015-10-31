@@ -131,12 +131,14 @@ public class HomeActivity extends BaseActivity implements
 
     @Override
     public void onCategoryClick(Category c) {
-        Snackbar.make(mFab, c.getTitle(), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        if (!c.getSolved().equals("solved")) {
+            Intent i = new Intent(this, GameActivity.class);
+            i.putExtra("category", c.getCatId());
 
-        Intent i = new Intent(this, GameActivity.class);
-        i.putExtra("category", c.getCatId());
-
-        startActivity(i);
+            startActivity(i);
+        } else {
+            Snackbar.make(mFab, "You have solved all quizzes in "+c.getTitle(), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
     }
 }
