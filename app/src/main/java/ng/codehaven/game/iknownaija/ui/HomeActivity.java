@@ -39,7 +39,7 @@ public class HomeActivity extends BaseActivity implements
 
         Realm realm = Realm.getInstance(this);
 
-        if (!getIntent().getStringExtra("cat").equals("")){
+        if (getIntent().getStringExtra("cat") != null &&!getIntent().getStringExtra("cat").equals("")){
             Category category = realm.where(Category.class).equalTo(Category.CAT_ID, getIntent().getStringExtra("cat")).findFirst();
             if (!category.getSolved().equals("solved")) {
                 realm.beginTransaction();
