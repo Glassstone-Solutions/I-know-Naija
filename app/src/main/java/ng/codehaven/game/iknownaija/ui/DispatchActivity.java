@@ -45,6 +45,7 @@ import ng.codehaven.game.iknownaija.R;
 import ng.codehaven.game.iknownaija.models.Category;
 import ng.codehaven.game.iknownaija.models.JsonAttributes;
 import ng.codehaven.game.iknownaija.models.Quiz;
+import ng.codehaven.game.iknownaija.models.User;
 
 public class DispatchActivity extends AppCompatActivity implements
         View.OnClickListener,
@@ -65,7 +66,8 @@ public class DispatchActivity extends AppCompatActivity implements
     LinearLayout mSignUpBar;
     @InjectView(R.id.sign_out_bar)
     LinearLayout mSignOutBar;
-    @InjectView(R.id.loading_bg)View mLoadingBg;
+    @InjectView(R.id.loading_bg)
+    View mLoadingBg;
     @InjectView(R.id.progress)
     ProgressBar mProgress;
 
@@ -106,6 +108,16 @@ public class DispatchActivity extends AppCompatActivity implements
 
         mResources = getResources();
 
+        User user = realm.where(User.class).findFirst();
+
+        if (user == null) {
+            user = new User();
+            user.setScore(0);
+            realm.beginTransaction();
+            realm.copyToRealm(user);
+            realm.commitTransaction();
+        }
+
         // Create the Google API Client with access to Plus and Games
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -141,7 +153,7 @@ public class DispatchActivity extends AppCompatActivity implements
         if (sp.getBoolean(Common.FIRST_RUN_KEY, true)) {
             init(realm);
         } else {
-            if (mLoadingBg.getVisibility() == View.VISIBLE || mProgress.getVisibility() == View.VISIBLE){
+            if (mLoadingBg.getVisibility() == View.VISIBLE || mProgress.getVisibility() == View.VISIBLE) {
                 mLoadingBg.setVisibility(View.GONE);
                 mProgress.setVisibility(View.GONE);
 
@@ -176,7 +188,7 @@ public class DispatchActivity extends AppCompatActivity implements
 
     private void doAnimations() {
 
-        if (mLoadingBg.getVisibility() == View.VISIBLE){
+        if (mLoadingBg.getVisibility() == View.VISIBLE) {
             mProgress.setVisibility(View.GONE);
             ObjectAnimator bgAnim = ObjectAnimator.ofFloat(mLoadingBg, View.ALPHA, 0f);
             bgAnim.setDuration(500);

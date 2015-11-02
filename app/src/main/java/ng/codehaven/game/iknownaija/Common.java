@@ -17,6 +17,7 @@ public class Common extends Application {
     public static final String G_PLUS_SIGNED_IN = "g+";
     public static final String TICKER = "ticker";
     public static final String TICKER_STARTED = "ticker_started";
+    public static final String SAVED_GAME = "saved_game";
 
     /**
      * Called when the application is starting, before any activity, service,

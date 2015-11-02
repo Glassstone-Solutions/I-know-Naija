@@ -19,7 +19,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.games.Games;
-import com.google.android.gms.games.snapshot.Snapshot;
 import com.squareup.otto.Bus;
 
 import org.json.JSONArray;
@@ -36,8 +35,10 @@ import ng.codehaven.game.iknownaija.bus.BusProvider;
 import ng.codehaven.game.iknownaija.bus.events.QuizBuss;
 import ng.codehaven.game.iknownaija.models.Category;
 import ng.codehaven.game.iknownaija.models.Quiz;
+import ng.codehaven.game.iknownaija.models.User;
 import ng.codehaven.game.iknownaija.ui.adapters.AnswerAdapter;
 import ng.codehaven.game.iknownaija.ui.adapters.AnswerAdapter.AnswerInterface;
+import ng.codehaven.game.iknownaija.utils.NetworkHelper;
 
 public class GameActivity extends BaseActivity implements OnClickListener, AnswerInterface, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -71,8 +72,6 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
     // True if we want to automatically attempt to sign in the user at application start.
     private boolean mAutoStartSignIn = true;
 
-    private Snapshot mSnapshot;
-
     @InjectView(R.id.txt_countdown)
     TextView mCountdownView;
     @InjectView(R.id.txt_question)
@@ -89,6 +88,7 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
     Quiz q;
     AnswerAdapter adapter = null;
     private Bus mBus = BusProvider.getInstance();
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +101,8 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
         cat = getIntent().getStringExtra("category");
 
         realm = Realm.getInstance(this);
+
+        user = realm.where(User.class).findFirst();
 
         Category c = realm.where(Category.class).equalTo(Category.CAT_ID, cat).findFirst();
 
@@ -115,8 +117,21 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
             }
         }
 
+        assert getSupportActionBar() != null;
+        assert q != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if (q != null) {
             mQuestion.setText(q.getQuestion());
+            try {
+                adapter = new AnswerAdapter(this, new JSONArray(q.getOptions()));
+                adapter.setAnswerInterface(this);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                adapter = null;
+            }
+            mRecycler.setLayoutManager(new LinearLayoutManager(this));
+            mRecycler.setAdapter(adapter);
         } else {
             Intent i = new Intent(this, HomeActivity.class);
             i.putExtra("solved", true);
@@ -125,17 +140,7 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
             finish();
         }
 
-        assert getSupportActionBar() != null;
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        try {
-            adapter = new AnswerAdapter(this, new JSONArray(q.getOptions()));
-            adapter.setAnswerInterface(this);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            adapter = null;
-        }
-        mRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mRecycler.setAdapter(adapter);
+
 
         // Build API client with access to Games, AppState, and SavedGames.
         // It is very important to add Drive or the SavedGames API will not work
@@ -177,7 +182,7 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
             mCount = 15000;
         }
 
-        timer = new CountDownTimer(mCount, 1000) {
+        timer = new CountDownTimer(15000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mCountdownView.setText(String.valueOf(millisUntilFinished / 1000));
@@ -283,6 +288,9 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
 
     private void doFailAnimation(int clickedPosition, int answerPosition) {
         adapter.updateAnswerWithFail(clickedPosition, answerPosition);
+        int score = 0;
+        mCountdownView.setText(String.valueOf(score));
+        doFabAnim(score);
     }
 
     private void doCorrectAnim(int position) {
@@ -290,6 +298,15 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
         int score = mCount * 5;
         mCountdownView.setText(String.format("%s points", String.valueOf(score / 1000)));
         mCountdownView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+        doFabAnim(score);
+    }
+
+    private void doFabAnim(int score) {
+        if (NetworkHelper.isOnline(this)){
+            updateScoreOnline(score);
+        } else {
+            updateScore(score);
+        }
         mFab.animate()
                 .scaleX(1)
                 .scaleY(1)
@@ -304,6 +321,20 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
                 startActivity(i);
             }
         });
+    }
+
+    private void updateScore(int score) {
+        int currentScore = user.getScore();
+        int newScore = currentScore + score;
+
+        realm.beginTransaction();
+        user.setScore(newScore);
+        realm.commitTransaction();
+    }
+
+    private void updateScoreOnline(int score) {
+        updateScore(score);
+        int getScore = user.getScore();
     }
 
     @Override
