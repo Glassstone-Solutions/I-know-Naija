@@ -3,6 +3,7 @@ package ng.codehaven.game.iknownaija.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -55,23 +56,6 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
 
     // Request code used to invoke Snapshot selection UI.
     private static final int RC_SELECT_SNAPSHOT = 9002;
-
-    /// Client used to interact with Google APIs.
-    private GoogleApiClient mGoogleApiClient;
-
-    // Progress Dialog used to display loading messages.
-    private ProgressDialog mProgressDialog;
-
-    // True when the application is attempting to resolve a sign-in error that has a possible
-    // resolution,
-    private boolean mIsResolving = false;
-
-    // True immediately after the user clicks the sign-in button/
-    private boolean mSignInClicked = false;
-
-    // True if we want to automatically attempt to sign in the user at application start.
-    private boolean mAutoStartSignIn = true;
-
     @InjectView(R.id.txt_countdown)
     TextView mCountdownView;
     @InjectView(R.id.txt_question)
@@ -87,6 +71,17 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
     String cat;
     Quiz q;
     AnswerAdapter adapter = null;
+    /// Client used to interact with Google APIs.
+    private GoogleApiClient mGoogleApiClient;
+    // Progress Dialog used to display loading messages.
+    private ProgressDialog mProgressDialog;
+    // True when the application is attempting to resolve a sign-in error that has a possible
+    // resolution,
+    private boolean mIsResolving = false;
+    // True immediately after the user clicks the sign-in button/
+    private boolean mSignInClicked = false;
+    // True if we want to automatically attempt to sign in the user at application start.
+    private boolean mAutoStartSignIn = true;
     private Bus mBus = BusProvider.getInstance();
     private User user;
 
@@ -139,7 +134,6 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
             startActivity(i);
             finish();
         }
-
 
 
         // Build API client with access to Games, AppState, and SavedGames.
@@ -302,7 +296,7 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
     }
 
     private void doFabAnim(int score) {
-        if (NetworkHelper.isOnline(this)){
+        if (NetworkHelper.isOnline(this)) {
             updateScoreOnline(score);
         } else {
             updateScore(score);
@@ -335,11 +329,14 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
     private void updateScoreOnline(int score) {
         updateScore(score);
         int getScore = user.getScore();
+        if (mGoogleApiClient.isConnected()) {
+            // Update score
+            Games.Leaderboards.submitScore(mGoogleApiClient,Common.LEADERBOARD_ID, getScore);
+        }
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-
     }
 
     @Override
@@ -349,6 +346,18 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        if (mIsResolving) {
+            return;
+        } else if (connectionResult.hasResolution()) {
+            try{
+                mIsResolving = true;
+                connectionResult.startResolutionForResult(this, 1001);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+                mGoogleApiClient.connect();
+            }
+        } else {
+            mIsResolving = true;
+        }
     }
 }

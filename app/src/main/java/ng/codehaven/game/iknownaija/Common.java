@@ -18,6 +18,7 @@ public class Common extends Application {
     public static final String TICKER = "ticker";
     public static final String TICKER_STARTED = "ticker_started";
     public static final String SAVED_GAME = "saved_game";
+    public static final String LEADERBOARD_ID = "CgklxlRuNIQEAIQAQ";
 
     /**
      * Called when the application is starting, before any activity, service,

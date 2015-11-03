@@ -332,7 +332,6 @@ public class DispatchActivity extends AppCompatActivity implements
     }
 
     private void fillCategory(Realm realm, JSONObject category, String categoryId) throws JSONException {
-        Log.e("TAG", category.toString());
         Category cat = new Category();
         cat.setCatId(categoryId);
         cat.setTitle(category.getString(JsonAttributes.NAME));

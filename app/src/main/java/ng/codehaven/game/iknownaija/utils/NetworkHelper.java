@@ -19,6 +19,9 @@ package ng.codehaven.game.iknownaija.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.text.TextUtils;
 
 /**
  * Generic reusable network methods.
@@ -29,9 +32,30 @@ public class NetworkHelper {
      * @return true if connected, false otherwise.
      */
     public static boolean isOnline(Context context) {
-        ConnectivityManager connMgr = (ConnectivityManager)
-            context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        NetworkInfo networkInfo = getNetworkInfo(context);
         return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    /**
+     * @param context to use to check for network connectivity.
+     * @return true if WiFi, false otherwise.
+     */
+    public static boolean isWiFi(Context context){
+        boolean wifiIsConnected = false;
+        NetworkInfo networkInfo = getNetworkInfo(context);
+        if (networkInfo.isConnected()){
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            if (wifiInfo != null && !TextUtils.isEmpty(wifiInfo.getSSID())){
+                wifiIsConnected = true;
+            }
+        }
+        return wifiIsConnected;
+    }
+
+    private static NetworkInfo getNetworkInfo(Context context){
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connMgr.getActiveNetworkInfo();
     }
 }

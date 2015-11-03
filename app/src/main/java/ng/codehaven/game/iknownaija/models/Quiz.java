@@ -6,6 +6,7 @@ import io.realm.RealmObject;
  * Created by Thompson on 19/10/2015.
  */
 public class Quiz extends RealmObject {
+    public static final String QUESTION = "question";
     private String type, question, answer, options;
     private boolean solved;
 
