@@ -18,6 +18,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract boolean hasTitle();
 
+    public abstract boolean hasUp();
+
     public abstract int getToolBarId();
 
     public abstract boolean hasFAB();
@@ -45,6 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             setSupportActionBar(mToolbar);
 
             assert getSupportActionBar() != null;
+            getSupportActionBar().setDisplayHomeAsUpEnabled(hasUp());
             getSupportActionBar().setDisplayShowTitleEnabled(hasTitle());
 
         }

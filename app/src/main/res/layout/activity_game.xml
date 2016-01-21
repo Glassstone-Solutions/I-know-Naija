@@ -19,12 +19,30 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/txt_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginTop="8dp"
+                android:text="Total Points: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/colorText"
+                app:customTypeface="roboto-bold"/>
+
+        </android.support.v7.widget.Toolbar>
 
         <LinearLayout
             android:id="@+id/view_question"
             android:layout_width="match_parent"
-            android:layout_height="256dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
             android:orientation="vertical"
             android:background="@color/colorPrimary">
 
@@ -37,7 +55,7 @@
                 android:text="15"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display4"
                 android:textColor="@color/colorText"
-                app:customTypeface="roboto-bold"/>
+                app:customTypeface="roboto-thin"/>
 
             <TextView
                 android:id="@+id/txt_question"
@@ -64,9 +82,8 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchorGravity="bottom|end"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/appbar"
         android:clickable="true"
         android:scaleX="0"
         android:scaleY="0"

@@ -39,5 +39,6 @@ public class Common extends Application {
 
         CustomTypeface.getInstance().registerTypeface("oswald-stencbab", getAssets(), "fonts/Oswald-Stencbab.ttf");
         CustomTypeface.getInstance().registerTypeface("roboto-bold", getAssets(), "fonts/Roboto-Bold.ttf");
+        CustomTypeface.getInstance().registerTypeface("roboto-thin", getAssets(), "fonts/Roboto-Thin.ttf");
     }
 }

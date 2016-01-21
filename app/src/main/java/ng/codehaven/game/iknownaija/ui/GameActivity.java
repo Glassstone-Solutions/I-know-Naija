@@ -7,13 +7,12 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -56,14 +55,14 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
 
     // Request code used to invoke Snapshot selection UI.
     private static final int RC_SELECT_SNAPSHOT = 9002;
+    @InjectView(R.id.view_question)
+    LinearLayout mQuestionView;
     @InjectView(R.id.txt_countdown)
     TextView mCountdownView;
     @InjectView(R.id.txt_question)
     TextView mQuestion;
     @InjectView(R.id.view_answers)
     RecyclerView mRecycler;
-    @InjectView(R.id.fab)
-    FloatingActionButton mFab;
     int mCount = 14;
     int tick = 15000;
     boolean counterStarted, answered, timerDone;
@@ -98,6 +97,9 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
         realm = Realm.getInstance(this);
 
         user = realm.where(User.class).findFirst();
+
+//        int topHeight = UIUtils.getScreenHeight(this)/3;
+//        mQuestionView.setMinimumHeight(topHeight);
 
         Category c = realm.where(Category.class).equalTo(Category.CAT_ID, cat).findFirst();
 
@@ -152,8 +154,10 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        if (NetworkHelper.isOnline(this)) {
+            mGoogleApiClient.connect();
 //        updateUI();
+        }
     }
 
     @Override
@@ -220,6 +224,11 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
 
     @Override
     public boolean hasTitle() {
+        return false;
+    }
+
+    @Override
+    public boolean hasUp() {
         return true;
     }
 
@@ -230,12 +239,12 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
 
     @Override
     public boolean hasFAB() {
-        return false;
+        return true;
     }
 
     @Override
     public int FAB() {
-        return 0;
+        return R.id.fab;
     }
 
     /**
@@ -280,6 +289,14 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
 
     }
 
+    private void doCorrectAnim(int position) {
+        adapter.updateAnswer(position);
+        int score = mCount * 5;
+//        mCountdownView.setText(String.format("%s points", String.valueOf(score / 1000)));
+//        mCountdownView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 48);
+        doFabAnim(score);
+    }
+
     private void doFailAnimation(int clickedPosition, int answerPosition) {
         adapter.updateAnswerWithFail(clickedPosition, answerPosition);
         int score = 0;
@@ -287,34 +304,29 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
         doFabAnim(score);
     }
 
-    private void doCorrectAnim(int position) {
-        adapter.updateAnswer(position);
-        int score = mCount * 5;
-        mCountdownView.setText(String.format("%s points", String.valueOf(score / 1000)));
-        mCountdownView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        doFabAnim(score);
-    }
-
-    private void doFabAnim(int score) {
-        if (NetworkHelper.isOnline(this)) {
-            updateScoreOnline(score);
-        } else {
-            updateScore(score);
-        }
+    private void doFabAnim(final int score) {
         mFab.animate()
                 .scaleX(1)
                 .scaleY(1)
                 .setStartDelay(400)
                 .start();
+
+
         mFab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (NetworkHelper.isOnline(GameActivity.this)) {
+                    updateScoreOnline(score);
+                } else {
+                    updateScore(score);
+                }
                 mBus.post(new QuizBuss(cat));
                 Intent i = new Intent(GameActivity.this, GameActivity.class);
                 i.putExtra("category", cat);
                 startActivity(i);
             }
         });
+
     }
 
     private void updateScore(int score) {
@@ -331,7 +343,7 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
         int getScore = user.getScore();
         if (mGoogleApiClient.isConnected()) {
             // Update score
-            Games.Leaderboards.submitScore(mGoogleApiClient,Common.LEADERBOARD_ID, getScore);
+            Games.Leaderboards.submitScore(mGoogleApiClient, Common.LEADERBOARD_ID, getScore);
         }
     }
 
@@ -349,7 +361,7 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
         if (mIsResolving) {
             return;
         } else if (connectionResult.hasResolution()) {
-            try{
+            try {
                 mIsResolving = true;
                 connectionResult.startResolutionForResult(this, 1001);
             } catch (IntentSender.SendIntentException e) {
@@ -359,5 +371,15 @@ public class GameActivity extends BaseActivity implements OnClickListener, Answe
         } else {
             mIsResolving = true;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, GameActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        startActivity(i);
+        super.onBackPressed();
     }
 }

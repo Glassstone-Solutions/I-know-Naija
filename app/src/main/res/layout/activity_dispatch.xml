@@ -85,7 +85,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/btn_play"
                 android:text="@string/txt_play"
-                android:textColor="?android:textColorPrimaryInverse" />
+                android:textColor="?android:textColorPrimary" />
 
             <Button
                 android:id="@+id/btn_leader_board"
@@ -95,7 +95,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/btn_play"
                 android:text="@string/txt_leader_board"
-                android:textColor="?android:textColorPrimaryInverse" />
+                android:textColor="?android:textColorPrimary" />
 
             <Button
                 android:id="@+id/btn_achievements"
@@ -105,7 +105,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/btn_play"
                 android:text="@string/txt_achievements"
-                android:textColor="?android:textColorPrimaryInverse" />
+                android:textColor="?android:textColorPrimary" />
 
 
         </LinearLayout>

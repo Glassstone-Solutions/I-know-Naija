@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -287,7 +286,7 @@ public class DispatchActivity extends AppCompatActivity implements
 
         } else {
             mProgress.setVisibility(View.GONE);
-//            retryBootStrap(realm);
+            retryBootStrap(realm);
         }
 
 
